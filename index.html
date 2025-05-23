@@ -106,7 +106,33 @@
 
     <div class="section">
       <h2>📤 نشر تلقائي إلى Facebook</h2>
-      <button onclick="alert('سيتم ربط هذا الزر بـ Make.com قريبًا')">نشر الإعلان تلقائيًا</button>
+      
+    <form id="publishForm">
+      <input id="publishImagePrompt" placeholder="أدخل وصف الصورة نفسه للنشر" required />
+      <textarea id="publishText" placeholder="أدخل نص الإعلان هنا أو انسخه من الناتج أعلاه" required></textarea>
+      <button type="submit">نشر الإعلان الآن</button>
+    </form>
+    <div id="publishResult"></div>
+    <script>
+      document.getElementById('publishForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const data = {
+          text: document.getElementById('publishText').value,
+          image_prompt: document.getElementById('publishImagePrompt').value
+        };
+        const res = await fetch("https://hook.eu2.make.com/i46yjdupxrif7fuzeysnmayb9cn4ulen", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        if (res.ok) {
+          document.getElementById('publishResult').innerText = "✅ تم إرسال الإعلان إلى النشر.";
+        } else {
+          document.getElementById('publishResult').innerText = "❌ حدث خطأ أثناء النشر.";
+        }
+      };
+    </script>
+    
     </div>
   </main>
 
